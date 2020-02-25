@@ -1,26 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import footerLink from './constant/footerLinks';
+import Form from './components/Form/';
+import TodoList from './components/TodoList';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+	state = {
+		data: '',
+		todos: ['haha', 'xixi', 'hehe'],
+	};
+	handleInputChange = e => {
+		this.setState({
+			data: e.target.value,
+		});
+	};
+	handleSubmitInput = () => {
+		const todos = this.state.todos;
+		todos.push(this.state.data);
+		this.setState({
+			todos: todos,
+			data: '',
+		});
+	};
+	handleDeletTodo = i => {
+		const todos = this.state.todos;
+		todos.splice(i, 1);
+		this.setState({
+			todos: todos,
+		});
+	};
+	render() {
+		return (
+			<div className='app'>
+				<TodoList
+					handleDeletTodo={this.handleDeletTodo}
+					todos={this.state.todos}
+				/>
+				<Form
+					handleSubmitInput={this.handleSubmitInput}
+					handleInputChange={this.handleInputChange}
+					data={this.state.data}
+				/>
+			</div>
+		);
+	}
 }
 
 export default App;
